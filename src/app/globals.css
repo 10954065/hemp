@@ -1,0 +1,387 @@
+@import "tailwindcss";
+
+/*
+ * HempWealth Ghana design tokens.
+ * Text colour pairs checked against WCAG 2.2 AA:
+ *   ink on ivory 13.6:1 · muted on ivory 5.1:1 · gold-ink on ivory 5.4:1
+ *   gold on evergreen 5.6:1 · sage on forest 5.7:1 · ivory on moss 7.2:1
+ * Gold (#B79A62) is never used for text on light surfaces; use gold-ink.
+ */
+@theme {
+  --color-forest: #173d2d;
+  --color-evergreen: #102b21;
+  --color-moss: #315a42;
+  --color-sage: #a5b8a0;
+  --color-sage-soft: #c9d4c5;
+  --color-ivory: #f7f5ef;
+  --color-parchment: #efede4;
+  --color-white: #ffffff;
+  --color-gold: #b79a62;
+  --color-gold-ink: #7a6033;
+  --color-ink: #202a24;
+  --color-muted: #5b655e;
+  --color-line: #e3e5de;
+  --color-danger: #9f2a1f;
+  --color-success: #2f6a45;
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+
+  /* Fluid type scale: clamps keep headings readable from 320px upwards. */
+  --text-display: clamp(2.5rem, 1.55rem + 4.4vw, 5.25rem);
+  --text-display--line-height: 1.03;
+  --text-h1: clamp(2.2rem, 1.6rem + 2.7vw, 3.9rem);
+  --text-h1--line-height: 1.07;
+  --text-h2: clamp(1.8rem, 1.4rem + 1.7vw, 2.8rem);
+  --text-h2--line-height: 1.12;
+  --text-h3: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem);
+  --text-h3--line-height: 1.25;
+  --text-lead: clamp(1.075rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--letter-spacing: 0.18em;
+  --text-eyebrow--line-height: 1.4;
+
+  --container-site: 78rem;
+  --container-prose: 42rem;
+
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  --shadow-soft: 0 1px 2px rgb(16 43 33 / 0.06), 0 8px 24px -12px rgb(16 43 33 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(16 43 33 / 0.06), 0 24px 48px -24px rgb(16 43 33 / 0.35);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+:root {
+  --header-height: 4.5rem;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --z-header: 40;
+  --z-overlay: 50;
+  --z-skip: 60;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-sage-soft);
+    color: var(--color-evergreen);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-moss);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-gold);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Long-form copy used by legal pages and articles. */
+  .prose-hw {
+    max-width: var(--container-prose);
+    color: var(--color-ink);
+  }
+  .prose-hw > * + * {
+    margin-top: 1.25em;
+  }
+  .prose-hw h2 {
+    font-size: var(--text-h3);
+    line-height: 1.25;
+    margin-top: 2.4em;
+    color: var(--color-forest);
+  }
+  .prose-hw h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    margin-top: 2em;
+  }
+  .prose-hw a {
+    color: var(--color-moss);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  .prose-hw a:hover {
+    color: var(--color-forest);
+    text-decoration-thickness: 2px;
+  }
+  .prose-hw ul {
+    list-style: none;
+    padding: 0;
+  }
+  .prose-hw ul > li {
+    position: relative;
+    padding-left: 1.5em;
+  }
+  .prose-hw ul > li + li {
+    margin-top: 0.5em;
+  }
+  .prose-hw ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0.15em;
+    top: 0.85em;
+    width: 0.6em;
+    height: 1px;
+    background: var(--color-gold);
+  }
+  .prose-hw blockquote {
+    border-left: 2px solid var(--color-gold);
+    padding-left: 1.25em;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1.45;
+    color: var(--color-forest);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size var(--duration-base) var(--ease-out-soft);
+  }
+  .link-underline:hover,
+  .link-underline[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+}
+
+@layer utilities {
+  /* Entrance reveal driven by CSS scroll timelines: no JS, inert where unsupported. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+      }
+    }
+  }
+
+  /* Hero scroll depth: the photo sinks and the copy lifts away over the first viewport. */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-depth {
+        animation: scroll-depth linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+      .scroll-lift {
+        animation: scroll-lift linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 85vh;
+      }
+    }
+  }
+}
+
+/* Landing hero choreography. Every class ends at the natural resting state, and the global
+   reduced-motion rule collapses durations so content appears immediately. */
+@layer components {
+  .hero-settle {
+    animation: hero-settle 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .rise-word {
+    animation: rise-line 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  /* Low-angle sunlight that blooms once over the top-right of the frame. */
+  .sun-glow {
+    background: radial-gradient(ellipse 55% 45% at 82% 8%, rgb(214 186 120 / 0.32), transparent 70%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: fade-in 2.4s ease-out 0.4s both;
+  }
+  /* Pointer parallax: --px/--py (-1..1) are set by HeroStage on desktop pointers only. */
+  .parallax-back {
+    transform: translate3d(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -10px), 0);
+  }
+  .parallax-front {
+    transform: translate3d(calc(var(--px, 0) * 10px), calc(var(--py, 0) * 7px), 0);
+  }
+  .tag-row {
+    animation: tag-row 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  /* A gold scan line that runs once along the tag's perforation, then fades away. */
+  .tag-trace {
+    transform-origin: left;
+    animation: tag-trace 1.1s cubic-bezier(0.65, 0, 0.35, 1) 1.35s both;
+  }
+  .fade-up {
+    animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .fade-in {
+    animation: fade-in 0.8s ease-out both;
+  }
+  .tag-hang {
+    transform-origin: 50% -4rem;
+    animation: tag-hang 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.95s both;
+  }
+  /* Chamfered top corners, like a punched agricultural tag. */
+  .tag-shape {
+    clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%, 0 14px);
+    border-radius: 0 0 14px 14px;
+  }
+  .grain {
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes rise-line {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tag-row {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tag-trace {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-depth {
+  to {
+    transform: translateY(9%) scale(1.05);
+  }
+}
+
+@keyframes scroll-lift {
+  to {
+    transform: translateY(-48px);
+    opacity: 0.35;
+  }
+}
+
+@keyframes tag-hang {
+  from {
+    opacity: 0;
+    transform: translateY(24px) rotate(-4deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) rotate(0.6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
